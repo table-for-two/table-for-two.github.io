@@ -1,0 +1,209 @@
+/* site.css: "Table for Two", the website made from the talk (talks/v2-43).
+ * Tokens are the deck's own (talks/v2-43/shared/css/deck.css), so the page and the slide videos read as one thing:
+ * white ground, navy ink, Palatino for titles and text, Martian Mono caps for labels.
+ * Colour meanings are the deck's: oak = her · lilac = the robot · gingham = a correction she made · sage = structure.
+ * Without JavaScript every slide is its final-state picture with its name; player.js (class .js on <html>) turns each
+ * group of slides into a player: tabs on top, the slide's video, a control bar. */
+
+@font-face{ font-family:"T4T Palatino"; font-style:normal; font-weight:400; font-display:swap;
+  src:local("Palatino Linotype"), local("PalatinoLinotype-Roman"), local("Palatino"), local("Palatino-Roman"), url("../fonts/P052-Roman.woff") format("woff"); }
+@font-face{ font-family:"T4T Palatino"; font-style:italic; font-weight:400; font-display:swap;
+  src:local("Palatino Linotype Italic"), local("PalatinoLinotype-Italic"), local("Palatino Italic"), local("Palatino-Italic"), url("../fonts/P052-Italic.woff") format("woff"); }
+@font-face{ font-family:"T4T Palatino"; font-style:normal; font-weight:700; font-display:swap;
+  src:local("Palatino Linotype Bold"), local("PalatinoLinotype-Bold"), local("Palatino Bold"), local("Palatino-Bold"), url("../fonts/P052-Bold.woff") format("woff"); }
+
+:root{
+  color-scheme:light;
+  --ground:#FFFFFF; --surface:#F4F6F1; --field:#16253A; --field-2:#1F3149;
+  --ink:#16253A; --ink-2:#46534B; --ink-3:#5E6B62; --rule:#C4CCBF; --rule-soft:#E1E6DC;
+  --oak:#A8741A; --lilac:#6F63B5; --gingham:#B42A3A; --sage:#7B8D74; --glaze:#2A6592;
+  --on-field:#E8ECE5; --on-field-2:#A7B4C3;
+  --f-serif:"T4T Palatino", "Palatino Linotype", Palatino, "Book Antiqua", P052, Georgia, serif;
+  --f-mono:"Martian Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --wrap:1440px;
+  --gutter:clamp(16px, 3.5vw, 48px);
+  --chrome:150px;                          /* a player's tabs + control bar + air: the stage fits the screen */
+  --shadow:0 1px 2px rgba(22,37,58,.08), 0 22px 44px -22px rgba(22,37,58,.38);
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+body{ margin:0; background:var(--ground); color:var(--ink); font:400 17px/1.6 var(--f-serif);
+  font-kerning:normal; text-rendering:optimizeLegibility; -webkit-font-smoothing:antialiased; }
+img,video{ display:block; max-width:100%; }
+a{ color:var(--glaze); text-underline-offset:.18em; text-decoration-thickness:1px; }
+:focus-visible{ outline:3px solid var(--glaze); outline-offset:3px; border-radius:4px; }
+[hidden]{ display:none !important; }
+.wrap{ max-width:var(--wrap); margin:0 auto; padding:0 var(--gutter); }
+
+.eyebrow, .wordmark{ font:500 12px/1.2 var(--f-mono); font-stretch:87.5%; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--sage); margin:0; }
+
+/* ============================================================ hero: the title beside the Overview player */
+.hero{ padding:clamp(24px, 4.5vh, 60px) 0 clamp(36px, 6vh, 72px); }
+.hero .wrap{ max-width:1680px; }                /* big screens: a bigger player (it still fits the screen's height) */
+/* the text column is as tall as the player, its content (calendar, title, links) at the bottom: the links' bottom
+   level with the slide's bottom edge, one control bar (--bar-h) above the player's bottom */
+.hero__grid{ display:grid; grid-template-columns:minmax(340px, .92fr) minmax(0, 1.3fr); gap:clamp(28px, 4vw, 72px);
+  align-items:stretch; --bar-h:46px; }
+.hero__text{ container-type:inline-size; display:flex; flex-direction:column; justify-content:flex-end; padding-bottom:var(--bar-h); }
+.hero__player{ align-self:end; }
+.wordmark{ color:var(--ink-3); }
+/* three lines that never break (the talk's title slide breaks it the same way): their size follows the column, so the
+   longest ("Human–Robot Co-Adaptation", 13.4 em of Palatino bold) just fits it */
+.hero__title{ font-weight:700; font-size:clamp(24px, 2.7vw, 46px); font-size:min(7.3cqi, 54px); line-height:1.1;
+  letter-spacing:-.012em; margin:10px 0 0; }
+.hero__l1, .hero__l2, .hero__l3{ display:block; white-space:nowrap; }
+/* the 22 meals on their calendar (the talk's title slide), above the title, sized to the screen's height */
+.hero__cal{ display:block; flex:none; width:auto; max-width:100%; height:min(38.4vh, 400px); margin:0 auto; }
+.hero__cal + .wordmark{ margin-top:22px; }
+.hero__venue{ margin:12px 0 0; font:500 12px/1.4 var(--f-mono); font-stretch:87.5%; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-2); }
+.links{ display:flex; flex-wrap:wrap; gap:7px; margin-top:18px; }
+.links__row{ display:flex; flex-wrap:wrap; gap:7px; }        /* a row's pills move to the next line together */
+.links a, .links .soon{ display:inline-flex; align-items:center; gap:6px; min-height:34px; padding:0 13px; border-radius:999px;
+  font:500 11px/1 var(--f-mono); font-stretch:87.5%; letter-spacing:.1em; text-transform:uppercase; text-decoration:none; }
+.links a{ color:var(--ground); background:var(--ink); border:1.5px solid var(--ink); transition:background .15s, color .15s; }
+.links a:hover{ background:var(--ground); color:var(--ink); }
+.links .soon{ color:var(--ink-3); border:1.5px dashed var(--rule); }
+.links .soon small{ font-size:10px; letter-spacing:.08em; color:var(--sage); }
+.hero__player{ min-width:0; }
+.hero__player .player{ --chrome:190px; }
+
+/* ============================================================ her words */
+.quote{ background:var(--field); color:var(--on-field); padding:clamp(56px, 11vh, 128px) 0; }
+.quote__q{ margin:0 auto; max-width:1100px; text-align:center; }
+.quote__q p{ margin:0; font:italic 400 clamp(30px, 5vw, 68px)/1.12 var(--f-serif); letter-spacing:-.01em; text-wrap:balance; }
+.quote__q footer{ margin-top:26px; font:500 12px/1.5 var(--f-mono); font-stretch:87.5%; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--on-field-2); }
+
+/* ============================================================ running text: abstract, BibTeX */
+.prose{ padding:clamp(52px, 9vh, 104px) 0 0; }
+.prose__grid{ display:grid; grid-template-columns:minmax(120px, 200px) minmax(0, 720px); gap:12px 56px; }
+.prose .eyebrow{ padding-top:.45em; }
+.prose__body p{ margin:0 0 1em; font-size:16px; line-height:1.66; color:var(--ink); }
+.bibtex{ position:relative; min-width:0; }
+.bibtex pre{ margin:0; padding:20px 76px 20px 22px; overflow:auto; background:var(--surface); border:1px solid var(--rule-soft);
+  border-radius:8px; font:400 13px/1.6 var(--f-mono); font-stretch:87.5%; color:var(--ink); white-space:pre-wrap; }
+.bibtex__copy{ position:absolute; top:10px; right:10px; padding:8px 12px; border:1px solid var(--rule); border-radius:999px;
+  background:var(--ground); font:500 11px/1 var(--f-mono); letter-spacing:.08em; text-transform:uppercase; color:var(--ink-2); cursor:pointer; }
+.bibtex__copy:hover{ border-color:var(--ink); color:var(--ink); }
+
+/* ============================================================ chapters: full-width bands */
+.chapter{ padding:clamp(56px, 10vh, 112px) 0 clamp(56px, 9vh, 104px); }
+.chapter--tint{ background:var(--surface); }
+.chapter--field{ background:var(--field); color:var(--on-field);
+  --ink:var(--on-field); --ink-2:#C9D2DB; --ink-3:var(--on-field-2); --rule:#3E5270; --rule-soft:#2C3F59; --surface:var(--field-2);
+  --shadow:0 1px 2px rgba(0,0,0,.2), 0 26px 50px -24px rgba(0,0,0,.6); }
+.chapter--field .eyebrow{ color:var(--on-field-2); }
+.chapter__head{ text-align:center; margin:0 0 28px; }
+.chapter__head h2{ font-weight:700; font-size:clamp(28px, 3.3vw, 46px); line-height:1.12; letter-spacing:-.01em; margin:10px 0 0;
+  text-wrap:balance; }
+
+/* no JavaScript: one slide after another, its picture and its name */
+.player{ width:min(100%, calc((100vh - var(--chrome)) * 4 / 3)); width:min(100%, calc((100svh - var(--chrome)) * 4 / 3));
+  margin:0 auto; }
+.talk-slide{ margin:0 0 32px; }
+.talk-slide__media img{ width:100%; height:auto; border-radius:8px; box-shadow:var(--shadow); }
+.talk-slide__cap{ margin-top:10px; font:500 12px/1.3 var(--f-mono); letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3); }
+
+/* ============================================================ the player (player.js) */
+.tabs{ display:flex; gap:12px; margin:0 0 12px; padding:0; list-style:none; overflow-x:auto; scrollbar-width:none; }
+.tabs::-webkit-scrollbar{ display:none; }
+.tabs li{ flex:1 1 0; min-width:max-content; }
+.tab{ display:block; width:100%; padding:0 0 2px; border:0; background:none; text-align:left; cursor:pointer;
+  font:500 11.5px/1.2 var(--f-mono); font-stretch:87.5%; letter-spacing:.09em; text-transform:uppercase; color:var(--ink-3); }
+.tab__bar{ display:block; height:3px; margin-bottom:9px; border-radius:2px; background:var(--rule-soft); overflow:hidden; }
+.tab__fill{ display:block; height:100%; width:0; background:var(--ink-3); }
+.tab .n{ margin-right:.55em; opacity:.7; }
+.tab:hover{ color:var(--ink); }
+.tab[aria-selected="true"]{ color:var(--ink); }
+.tab[aria-selected="true"] .tab__fill, .tab.is-done .tab__fill{ background:var(--ink); }
+.player--single .tabs{ display:none; }
+
+.player__main:fullscreen{ background:var(--ground); display:flex; flex-direction:column; justify-content:center; padding:2vh 2vw; }
+.player__main:fullscreen .player__stage, .player__main:fullscreen .bar{ width:min(100%, calc((100vh - 90px) * 4 / 3)); margin-left:auto; margin-right:auto; }
+.player__stage{ position:relative; aspect-ratio:4 / 3; overflow:hidden; background:#fff; border-radius:8px; box-shadow:var(--shadow);
+  cursor:pointer; }
+.player__stage > img, .player__stage > video{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; }
+.player__stage > img{ visibility:hidden; }
+.player__stage > img.is-cur{ visibility:visible; }
+.player__stage > video{ opacity:0; transition:opacity .2s; }
+.player__stage > video.is-on{ opacity:1; }
+.player__hint{ position:absolute; inset:auto 14px 14px auto; display:grid; place-items:center; width:56px; height:56px;
+  border-radius:50%; background:rgba(22,37,58,.86); color:#fff; pointer-events:none; opacity:0; transition:opacity .2s; }
+.player__hint svg{ width:24px; height:24px; fill:currentColor; }
+.player.is-idle .player__hint{ opacity:1; }
+
+.bar{ display:flex; align-items:center; gap:2px; margin-top:8px; }
+.bar button{ flex:none; display:grid; place-items:center; width:38px; height:38px; padding:0; border:0; border-radius:50%;
+  background:transparent; color:var(--ink); cursor:pointer; }
+.bar button:hover{ background:var(--rule-soft); }
+.bar button svg{ width:20px; height:20px; fill:currentColor; }
+.track{ position:relative; flex:1; height:38px; margin:0 10px; cursor:pointer; touch-action:none; }
+.track::before, .track__fill{ content:""; position:absolute; left:0; top:50%; height:2px; margin-top:-1px; border-radius:1px; }
+.track::before{ right:0; background:var(--rule-soft); }
+.track__fill{ width:0; background:var(--ink-3); }
+.track__tick{ position:absolute; top:50%; width:20px; height:20px; margin:-10px 0 0 -10px; padding:0; border:0; background:none; cursor:pointer; }
+.track__tick::after{ content:""; position:absolute; left:6px; top:6px; width:8px; height:8px; border-radius:50%;
+  background:var(--ground); border:1.5px solid var(--rule); transition:background .15s, border-color .15s; }
+.chapter--tint .track__tick::after{ background:var(--surface); }
+.chapter--field .track__tick::after{ background:var(--field); }
+.track__tick.is-past::after{ background:var(--ink-3); border-color:var(--ink-3); }
+.track__tick:hover::after{ border-color:var(--ink); }
+.bar__count{ flex:none; min-width:6.4em; text-align:right; font:500 11.5px/1 var(--f-mono); font-stretch:87.5%;
+  letter-spacing:.04em; color:var(--ink-3); font-variant-numeric:tabular-nums; }
+.bar .bar__speed{ width:auto; min-width:40px; height:28px; margin-left:8px; padding:0 9px; border-radius:999px;
+  border:1.5px solid var(--rule); font:500 11.5px/1 var(--f-mono); font-stretch:87.5%; letter-spacing:.02em; color:var(--ink-2); }
+.bar .bar__speed:hover{ border-color:var(--ink); color:var(--ink); background:transparent; }
+.bar .bar__speed[aria-pressed="true"]{ background:var(--ink); border-color:var(--ink); color:var(--ground); }
+
+/* ============================================================ team */
+.team{ padding:clamp(56px, 10vh, 112px) 0 0; text-align:center; }
+.team h2{ font-weight:700; font-size:clamp(28px, 3.3vw, 46px); line-height:1.12; letter-spacing:-.01em; margin:0 0 34px; }
+.team__grid{ list-style:none; margin:0 auto; padding:0; max-width:960px; display:grid;
+  grid-template-columns:repeat(4, minmax(0, 1fr)); gap:36px 24px; }
+.member{ display:flex; flex-direction:column; align-items:center; }
+.member__photo{ width:132px; height:132px; margin-bottom:14px; border-radius:50%; object-fit:cover; background:var(--surface);
+  box-shadow:0 1px 2px rgba(22,37,58,.1), 0 12px 26px -14px rgba(22,37,58,.45); }
+.member__photo--initials{ display:grid; place-items:center; border:1px solid var(--rule-soft); box-shadow:none;
+  font:700 36px/1 var(--f-serif); letter-spacing:.02em; color:var(--ink-3); }
+.member__name{ font-weight:700; font-size:16.5px; line-height:1.3; }
+.member__name a{ color:inherit; text-decoration:none; border-bottom:1px solid var(--rule); }
+.member__name a:hover{ border-bottom-color:var(--ink); }
+.member__name sup, .team__note sup{ font-size:.7em; margin-left:.08em; color:var(--ink-3); }
+.member__aff{ margin-top:2px; font-size:14px; line-height:1.4; color:var(--ink-2); }
+.team__note{ margin:30px 0 0; font-size:13.5px; color:var(--ink-3); }
+
+.foot{ border-top:1px solid var(--rule-soft); margin-top:clamp(64px, 12vh, 140px); padding:22px 0 40px; }
+.foot p{ margin:0; font:500 11px/1.4 var(--f-mono); font-stretch:87.5%; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); }
+
+/* ============================================================ narrow screens */
+@media (max-width: 1000px){
+  .hero__grid{ grid-template-columns:minmax(0, 1fr); }
+  .hero__text{ padding-bottom:0; }
+  .hero__player{ align-self:auto; }
+  .hero__player .player{ --chrome:120px; }
+  .prose__grid{ grid-template-columns:minmax(0, 1fr); }
+  .bibtex pre{ overflow-wrap:anywhere; }
+}
+@media (max-width: 760px){
+  .team__grid{ grid-template-columns:repeat(2, minmax(0, 1fr)); gap:30px 16px; }
+  .member__photo{ width:108px; height:108px; }
+}
+@media (max-width: 560px){
+  body{ font-size:16px; }
+  .hero__cal{ height:min(48vh, 352px); }
+  .tabs{ gap:8px; }
+  .tabs li{ flex:none; }
+  .tab{ font-size:11px; }
+  .bar button{ width:34px; height:34px; }
+  .bar__count{ min-width:0; font-size:10.5px; }
+  .track{ margin:0 6px; }
+  .player__hint{ width:40px; height:40px; inset:auto 8px 8px auto; }
+  .player__hint svg{ width:18px; height:18px; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ transition:none !important; animation:none !important; scroll-behavior:auto !important; }
+}

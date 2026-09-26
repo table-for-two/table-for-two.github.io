@@ -1,0 +1,7 @@
+P052-Roman.woff, P052-Italic.woff, P052-Bold.woff
+
+P052 is URW's metric-compatible Palatino clone from the URW++ base35 fonts
+(https://github.com/ArtifexSoftware/urw-base35-fonts), licensed under the
+GNU AGPL v3 with the font exception. Re-saved as WOFF, unmodified otherwise,
+from the copies bundled with the talk (talks/v2-43/shared/fonts). The page
+uses them only on machines without Palatino (css/site.css).
